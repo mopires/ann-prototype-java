@@ -1,2 +1,1 @@
-# ann-prototype-java
-Artificial Neural Network - Java implementation
+# Artificial Neural Network - Java implementation
