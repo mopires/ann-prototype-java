@@ -7,7 +7,7 @@ public class Neuron {
 
     private double[] Weight;
 
-    public  Neuron(int id){
+    public Neuron(int id){
         this.id = id;
     }
 

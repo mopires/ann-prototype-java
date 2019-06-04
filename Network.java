@@ -27,7 +27,7 @@ public class Network {
                 this.NumberOfNeurons = ScanInput.nextInt();
 
                 Neuron[] ArrayOfNeuron = new Neuron[NumberOfNeurons];
-                for (int j = 0; j < this.NumberOfNeurons; j++) {
+                for (int j = 0; j < ArrayOfNeuron.length; j++) {
                     ArrayOfNeuron[j] = new Neuron(j);//Include BIAS
                 }
                 network[i] = new Neuron[ArrayOfNeuron.length];
@@ -46,48 +46,52 @@ public class Network {
 
         try {
 
-            for(int i = 0; i < network[i].length; i++){
-                if (i+1 >= this.network[i].length){
-                    break;
-                }
-                else {
+            for(int i = 0; i < this.network.length; i++) {
 
-                    for (int j = 0; j < network[i].length;j++){
+                for (int j = 0; j < network[i].length; j++) {
 
-                        double[] weight = new double[this.network[i+1].length];
+                    double[] weight = new double[this.network[i + 1].length];
 
-                        for (int k = 0; k < this.network[i+1].length; k++) {
-                            weight[i] = 120;
-                        }
-                        this.network[i][j].SetWeight(weight);
+                    for (int k = 0; k < this.network[i + 1].length; k++) {
+                        weight[k] = 120;
                     }
+                    this.network[i][j].SetWeight(weight);
                 }
             }
 
         }catch (Exception ex){
-            System.out.println("\n ******** "+ex.getMessage());
+            System.out.println("\n ******** " + ex.getMessage());
         }
 
     }
 
     public void See(){
 
-        for (int i = 0; i < this.network[i].length;i++){
+        try {
+            for (int i = 0; i < this.network.length;i++){
 
-            if(i == this.network.length -1){
-                break;
-            }
-            System.out.println("Layer " + i);
-            for (int j = 0; j < this.network[i].length;j++){
-
-                System.out.print("Neuron["+network[i][j].GetId()+"]");
-                System.out.print("Weight -> ");
-                for (int k = 0;k < network[i][j].GetWeight().length;k++){
-                    System.out.print(network[i][j].GetWeight()[k] + " ");
+                if(i == this.network.length -1){
+                    break;
                 }
-                System.out.println();
+                System.out.println("Layer " + i);
+                for (int j = 0; j < this.network[i].length;j++){
 
+                    System.out.print("Neuron["+network[i][j].GetId()+"]");
+                    System.out.print("Weight -> ");
+
+                    for (int k = 0; k < this.network[i][j].GetWeight().length;k++){
+                        System.out.print(this.network[i][j].GetWeight()[k]+" ");
+                    }
+
+                    System.out.println();
+
+                }
             }
+
+        }
+        catch (Exception ex){
+            System.out.println("\n\n" + ex.getMessage());
+            System.out.println("\n\n" + ex.getCause());
         }
 
     }
