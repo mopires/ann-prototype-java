@@ -48,12 +48,16 @@ public class Network {
 
             for(int i = 0; i < this.network.length; i++) {
 
+                if(i + 1 == this.network.length){
+                    break;
+                }
+
                 for (int j = 0; j < network[i].length; j++) {
 
                     double[] weight = new double[this.network[i + 1].length];
 
                     for (int k = 0; k < this.network[i + 1].length; k++) {
-                        weight[k] = 120;
+                        weight[k] = 0.15;
                     }
                     this.network[i][j].SetWeight(weight);
                 }
@@ -65,23 +69,70 @@ public class Network {
 
     }
 
+    /*
+        Criar outros tipos de input
+
+     */
+
+    public void Input(double[] Input) {
+
+        for (int i = 0; i < this.network[0].length; i++){
+
+            this.network[0][i].Input(Input[i]);
+
+        }
+
+    }
+
+    private void Synapse(){
+
+        double NextValue;
+        for (int i = 0; i < this.network.length;i++){
+            for (int j = 0; j < this.network[i].length;j++){
+                for (int k = 0; k < this.network[i][j].GetWeight().length; k++){
+
+                    NextValue =
+                    (this.network[i][j].GetValue()*this.network[i][j].GetWeight()[k]) +
+                    (this.network[i][j+1].GetValue()*this.network[i][j+1].GetWeight()[k]);
+                    //incluir bias e taxa de aprendizado
+
+                    this.network[i+1][j].Input(NextValue);
+
+                }
+
+            }
+        }
+
+
+    }
+
+    public void Run(){
+
+        Synapse();
+
+    }
+
     public void See(){
 
         try {
+
             for (int i = 0; i < this.network.length;i++){
 
                 if(i == this.network.length -1){
                     break;
                 }
+
                 System.out.println("Layer " + i);
                 for (int j = 0; j < this.network[i].length;j++){
 
-                    System.out.print("Neuron["+network[i][j].GetId()+"]");
-                    System.out.print("Weight -> ");
+                    System.out.print("Neuron["+network[i][j].GetId()+"] ");
+                    System.out.print("Value: "+network[i][j].GetValue());
+                    /*System.out.print("Weight -> ");
 
                     for (int k = 0; k < this.network[i][j].GetWeight().length;k++){
                         System.out.print(this.network[i][j].GetWeight()[k]+" ");
                     }
+                    */
 
                     System.out.println();
 

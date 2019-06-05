@@ -3,7 +3,7 @@
 public class Neuron {
 
     private int id;
-    private Object Value; //Definition
+    private double Value;
 
     private double[] Weight;
 
@@ -22,6 +22,14 @@ public class Neuron {
     public void SetWeight(double[] Weight) {
         this.Weight = new double[Weight.length];
         this.Weight = Weight;
+    }
+
+    public double GetValue(){
+        return this.Value;
+    }
+
+    public void Input(double Value){
+        this.Value = Value;
     }
 
 }
