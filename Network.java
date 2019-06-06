@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Network {
 
-    Configuration config = new Configuration(1000000, 0.05);
+    Configuration config = new Configuration(10000000, 0.05);
 
     private Scanner ScanInput = new Scanner(System.in);
 
@@ -126,11 +126,11 @@ public class Network {
 
     public void SetupTrainning(double[] Input, double[] ExpectedOutput){
 
-        Input(Input);
         this.ExpectedOutput = ExpectedOutput;
+        Input(Input);
 
         Neuron[] Out = Run();
-        System.out.println("Running... \n");
+        System.out.println("The network is Running... \n");
 
         int e = 1;
         while (e <= config.GetEpochs()){
@@ -153,26 +153,30 @@ public class Network {
 
     private void WeightUpdate(){
 
-        for (int i = 0; i < this.network.length;i++){
-            if(i + 1 == this.network.length){
-                break;
-            }
+        double[] Update;
 
-            for (int j = 0; j < this.network[i].length; j++) {
+        for (int x = 0; x < ExpectedOutput.length; x++){
 
-                for (int k = 0; k < this.network[i][j].GetWeight().length;k++){
+            for (int i = 0; i < network.length;i++){
 
-                    double[] Update = new double[this.network[i][j].GetWeight().length];
-                    Update[k] = this.ExpectedOutput[k] -
-                                    (this.network[this.network.length-1][j].GetValue()*
-                                    config.GetLearnTax()*this.network[0][j].GetValue());
+                for (int j = 0; j < network[i].length; j++){
 
-                    this.network[i][j].UpdateWeight(Update);
+                    Update = new double[network[i][j].GetWeight().length];
+
+                    for (int k = 0; k < network[i][j].GetWeight().length; k++){
+
+                        Update[k] = this.ExpectedOutput[x] -
+                        (this.network[this.network.length-1][j].GetValue()*
+                        config.GetLearnTax())*this.network[0][j].GetValue();
+                    }
+
 
                 }
 
 
+
             }
+
 
 
         }

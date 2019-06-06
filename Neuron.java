@@ -40,7 +40,7 @@ public class Neuron {
     public void Activation(){
 
         if(!(this.Value >= 10.0)){
-            this.Value = this.Value - (this.Value * 0.10);
+            this.Value = 10.0;
         }
 
     }
