@@ -2,14 +2,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Network network = new Network(4); //ultima camada não tem peso
+        Network network = new Network(10); //ultima camada não tem peso
 
-        double[] numbers = new double[4];
+        double[] numbers = new double[500];
         for (int i = 0;i < numbers.length; i++) numbers[i] = i+1;
 
         network.Input(numbers);
-        network.Run();
-        network.See();
+        Neuron[] OutPut = network.Run();
+
+
+        for (int i = 0; i < OutPut.length; i++){
+            System.out.println(" "+OutPut[i].GetValue());
+        }
+
 
 
     }

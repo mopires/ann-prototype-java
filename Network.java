@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
-public class Network {
 
+public class Network {
 
     private int NumberOfHiddenLayers;
     private int NumberOfNeurons;
@@ -76,39 +76,46 @@ public class Network {
 
     public void Input(double[] Input) {
 
+        System.out.println(" Assigning inputs...");
         for (int i = 0; i < this.network[0].length; i++){
 
             this.network[0][i].Input(Input[i]);
 
         }
 
+
     }
 
-    private void Synapse(){
+    private Neuron[] Synapse(){
 
-        double NextValue;
+        double NextValue = 0;
         for (int i = 0; i < this.network.length;i++){
-            for (int j = 0; j < this.network[i].length;j++){
-                for (int k = 0; k < this.network[i][j].GetWeight().length; k++){
 
-                    NextValue =
-                    (this.network[i][j].GetValue()*this.network[i][j].GetWeight()[k]) +
-                    (this.network[i][j+1].GetValue()*this.network[i][j+1].GetWeight()[k]);
-                    //incluir bias e taxa de aprendizado
+            if(i + 1 == this.network.length){
+                break;
+            }
 
-                    this.network[i+1][j].Input(NextValue);
+            for (int j = 0; j < this.network[i].length; j++) {
 
+                for (int k = 0; k < this.network[i+1].length;k++){
+
+                    NextValue += this.network[i][j].GetValue() *
+                                this.network[i][j].GetWeight()[k];
+                    this.network[i+1][k].Input(NextValue);
                 }
 
+                NextValue = 0;
             }
+
+
         }
 
-
+        return this.network[this.network.length-1];
     }
 
-    public void Run(){
+    public Neuron[] Run(){
 
-        Synapse();
+        return Synapse();
 
     }
 

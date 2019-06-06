@@ -3,7 +3,7 @@
 public class Neuron {
 
     private int id;
-    private double Value;
+    private double Value = 0;
 
     private double[] Weight;
 
@@ -29,7 +29,7 @@ public class Neuron {
     }
 
     public void Input(double Value){
-        this.Value = Value;
+        this.Value += Value;
     }
 
 }
