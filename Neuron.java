@@ -3,7 +3,7 @@
 public class Neuron {
 
     private int id;
-    private double Value = 0;
+    private double Value = 0.0;
 
     private double[] Weight;
 
@@ -28,8 +28,21 @@ public class Neuron {
         return this.Value;
     }
 
+    public void UpdateWeight(double[] Update){
+        this.Weight = Update;
+    }
+
     public void Input(double Value){
         this.Value += Value;
+        Activation();
+    }
+
+    public void Activation(){
+
+        if(!(this.Value >= 10.0)){
+            this.Value = this.Value - (this.Value * 0.10);
+        }
+
     }
 
 }
