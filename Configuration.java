@@ -4,7 +4,7 @@
 public class Configuration {
 
     private int Epochs = 1000;
-    private double LearnTax = 0.05;
+    private double LearnTax = 0.03;
 
     public Configuration(int Epochs, double LearnTax){
         SetEpochs(Epochs);

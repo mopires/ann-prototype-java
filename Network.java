@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Network {
 
-    Configuration config = new Configuration(10000000, 0.05);
+    Configuration config = new Configuration(1000000000, 0.03);
 
     private Scanner ScanInput = new Scanner(System.in);
 
@@ -141,6 +141,7 @@ public class Network {
                     Run();
                 }
                 else {
+                    network[network.length-1][0].GetValue();
                     break;
                 }
             }
@@ -154,13 +155,12 @@ public class Network {
     private void WeightUpdate(){
 
         double NewWeight;
-        for (int i = network.length-2; i >= 0;i++ ) {
+        for (int i = network.length-2; i >= 0;i--) {
 
-            for (int j = 0; j < network[i].length;j++){
+            for (int j = 0; j < network[i].length-1;j++){
 
                 for (int k = 0; k < network[i][j].GetWeight().length;k++){
 
-                    System.out.println(i+"-j"+j+"-k"+k);
                     NewWeight = network[i][j].GetWeight()[k] + config.GetLearnTax() *
                                 (this.ExpectedOutput[j] -
                                 network[network.length-1][0].GetValue())
