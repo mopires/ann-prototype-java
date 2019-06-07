@@ -71,7 +71,7 @@ public class Network {
             }
 
         }catch (Exception ex){
-            System.out.println("\n ******** " + ex.getMessage());
+            System.out.println("\n " + ex.getMessage());
         }
 
     }
@@ -130,7 +130,7 @@ public class Network {
         Input(Input);
 
         Neuron[] Out = Run();
-        System.out.println("The network is Running... \n");
+        System.out.println("The network is learning... \n");
 
         int e = 1;
         while (e <= config.GetEpochs()){
@@ -153,33 +153,27 @@ public class Network {
 
     private void WeightUpdate(){
 
-        double[] Update;
+        double NewWeight;
+        for (int i = network.length-2; i >= 0;i++ ) {
 
-        for (int x = 0; x < ExpectedOutput.length; x++){
+            for (int j = 0; j < network[i].length;j++){
 
-            for (int i = 0; i < network.length;i++){
+                for (int k = 0; k < network[i][j].GetWeight().length;k++){
 
-                for (int j = 0; j < network[i].length; j++){
+                    System.out.println(i+"-j"+j+"-k"+k);
+                    NewWeight = network[i][j].GetWeight()[k] + config.GetLearnTax() *
+                                (this.ExpectedOutput[j] -
+                                network[network.length-1][0].GetValue())
+                                * network[i][j].GetValue();
 
-                    Update = new double[network[i][j].GetWeight().length];
-
-                    for (int k = 0; k < network[i][j].GetWeight().length; k++){
-
-                        Update[k] = this.ExpectedOutput[x] -
-                        (this.network[this.network.length-1][j].GetValue()*
-                        config.GetLearnTax())*this.network[0][j].GetValue();
-                    }
-
-
+                    network[i][j].UpdateWeight(NewWeight, k);
                 }
-
-
 
             }
 
-
-
         }
+
+
 
     }
 

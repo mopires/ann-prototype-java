@@ -28,8 +28,8 @@ public class Neuron {
         return this.Value;
     }
 
-    public void UpdateWeight(double[] Update){
-        this.Weight = Update;
+    public void UpdateWeight(double NewWeight, int Position){
+        this.Weight[Position] = NewWeight;
     }
 
     public void Input(double Value){
