@@ -33,14 +33,14 @@ public class Neuron {
     }
 
     public void Input(double Value){
-        this.Value += Value;
+        this.Value = Value;
         Activation();
     }
 
     public void Activation(){
 
-        if(!(this.Value >= 10.0)){
-            this.Value = 10.0;
+        if(this.Value >= 10.0 || this.Value <= 0){
+            this.Value = 1;
         }
 
     }

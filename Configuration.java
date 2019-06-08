@@ -3,8 +3,8 @@
 
 public class Configuration {
 
-    private int Epochs = 1000;
-    private double LearnTax = 0.03;
+    private int Epochs;
+    private double LearnTax;
 
     public Configuration(int Epochs, double LearnTax){
         SetEpochs(Epochs);

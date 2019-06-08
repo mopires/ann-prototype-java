@@ -1,10 +1,10 @@
-import java.awt.*;
+import java.util.Random;
 import java.util.Scanner;
 
 
 public class Network {
 
-    Configuration config = new Configuration(1000000000, 0.03);
+    Configuration config = new Configuration(100, 0.5);
 
     private Scanner ScanInput = new Scanner(System.in);
 
@@ -13,8 +13,6 @@ public class Network {
     private Neuron[][] network;
 
     private double[] ExpectedOutput;
-
-
 
 
     public Network(int NumberOfHiddenLayers) {
@@ -28,6 +26,7 @@ public class Network {
 
             Neuron[][] network = new Neuron[this.NumberOfHiddenLayers][];
 
+
             for (int i = 0; i < this.NumberOfHiddenLayers; i++) {
 
                 System.out.println("Layer["+i+"]");
@@ -40,6 +39,7 @@ public class Network {
                 network[i] = new Neuron[ArrayOfNeuron.length];
                 network[i] = ArrayOfNeuron;
             }
+
             this.network = network;
 
         }
@@ -50,6 +50,8 @@ public class Network {
     }
 
     private void InitWeight(){
+
+        Random RandNum;
 
         try {
 
@@ -64,7 +66,8 @@ public class Network {
                     double[] weight = new double[this.network[i + 1].length];
 
                     for (int k = 0; k < this.network[i + 1].length; k++) {
-                        weight[k] = 0.5;
+                        RandNum = new Random(System.currentTimeMillis());
+                        weight[k] = RandNum.nextDouble();
                     }
                     this.network[i][j].SetWeight(weight);
                 }
@@ -129,51 +132,68 @@ public class Network {
         this.ExpectedOutput = ExpectedOutput;
         Input(Input);
 
-        Neuron[] Out = Run();
+        Neuron[] Out;
         System.out.println("The network is learning... \n");
 
         int e = 1;
         while (e <= config.GetEpochs()){
-            System.out.println(e);
+
+            WeightUpdate();
+            Out = Run();
             for (int i = 0; i < this.ExpectedOutput.length; i++){
-                if(Out[i].GetValue() != ExpectedOutput[i]){
-                    WeightUpdate();
-                    Run();
-                }
-                else {
-                    network[network.length-1][0].GetValue();
+
+                System.out.println(Out[i].GetValue());
+                if(Out[i].GetValue() == ExpectedOutput[i]){
+
+                    System.out.println("Found the result: " + Out[i].GetValue());
+                    //Save the data(Number of layers, number of neurons
+                    // on each layer, weights... somewhere :(
                     break;
                 }
+
+
             }
             e++;
-
         }
+        // Save the data(Number of layers, number of neurons
+        // on each layer, weights... somewhere :(
+        // data.txt
 
-        See();
+        //See();
     }
 
     private void WeightUpdate(){
 
-        double NewWeight;
-        for (int i = network.length-2; i >= 0;i--) {
+        double NewWeight = 0;
 
-            for (int j = 0; j < network[i].length-1;j++){
+            for (int i = network.length-2; i >= 0;i--) { //run for the layers
 
-                for (int k = 0; k < network[i][j].GetWeight().length;k++){
+                for (int j = 0; j < network[i].length-1;j++){ // run for the neurons
 
-                    NewWeight = network[i][j].GetWeight()[k] + config.GetLearnTax() *
-                                (this.ExpectedOutput[j] -
-                                network[network.length-1][0].GetValue())
-                                * network[i][j].GetValue();
+                    for (int k = 0; k < network[i][j].GetWeight().length;k++){ //run for the weights
 
-                    network[i][j].UpdateWeight(NewWeight, k);
+                        //for (int l = 0; l < this.ExpectedOutput.length;l++){ //run for the outputs
+
+                            try{
+
+                                NewWeight = network[i][j].GetWeight()[k] +
+                                (config.GetLearnTax() *
+                                ((this.ExpectedOutput[j] - network[network.length - 1][0].GetValue())
+                                * network[i][j].GetValue()));
+                            }
+                            catch (Exception ex){
+                                System.out.println(ex.getMessage());
+                            }
+
+                        //}
+
+                        network[i][j].UpdateWeight(NewWeight, k);
+                        //System.out.println("Layer: "+i+"Neuron: "+j+"W: "+network[i][j].GetWeight()[k]);
+                    }
+
                 }
 
             }
-
-        }
-
-
 
     }
 
@@ -182,7 +202,8 @@ public class Network {
         try {
 
             for (int i = 0; i < this.network[this.network.length-1].length;i++){
-                System.out.println(i+ " " + this.network[this.network.length-1][i].GetValue());
+                System.out.println(i+")Expected: " + this.ExpectedOutput[i]);
+                System.out.println(i+ " -> " + this.network[this.network.length-1][i].GetValue());
             }
 
         }
