@@ -39,9 +39,7 @@ public class Neuron {
 
     public void Activation(){
 
-        if(this.Value >= 10.0 || this.Value <= 0){
-            this.Value = 1;
-        }
+
 
     }
 
